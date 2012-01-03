@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+STDOUT.sync = true
+
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+require 'rubygems'
+require 'shrt.rb'
+
+virigin_input     = ARGV[0] || 0
+url_to_shorten    = ARGV[0]
+if !url_to_shorten.empty?
+  
+  header = "\n\nBitly URL Shortner 0.45\n"
+  header += "-"*60
+  header += "\nCopyright Puper Heavy Industries 2012"
+  puts header
+
+  client = Shrt.new(url_to_shorten)
+  response = client.shorten_it!
+  
+  footer = "\n\nURL: #{client.url} => SHRT: #{client.short_url}"
+  footer += "\nThe Shortened URL Has been pushed into your clipboard too."
+  
+  puts footer
+  Kernel::system("echo #{client.short_url} | pbcopy")
+else
+  raise MissingInput.new("You Must Supply A URL To Shorten...")
+end
+
+
+
+
+

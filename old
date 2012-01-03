@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+# Bit.ly Shortner helper binary as this is getting fucking annoying and tedious
+require 'rubygems'
+require 'bitly'
+
+# Setup
+URI_MATCHER       =/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
+USER_NAME         = "davidkmalin"
+API_KEY           = "R_3328d46ce9fc8e763efb476c4c3c7da2"
+bitly             = Bitly.new(USER_NAME, API_KEY)
+virigin_input     = ARGV[0] || 0
+url_to_shorten    = ARGV[0]
+
+
+
+
+case url_to_shorten
+when String
+  puts  
+  
+  if url_to_shorten =~ URI_MATCHER
+    url = bitly.shorten(url_to_shorten)
+    puts "    Shortened #{url_to_shorten} => #{url.short_url}" 
+    puts "    #{url.short_url} Has Been Added To Clipboard For Ease of Use"
+    
+  else
+
+    puts "\n\n"
+    puts " ERROR INVALID URL SYNTAX"
+    puts " " + "-"*30
+    puts "    This was compared against #{URI_MATCHER.inspect} , if this indeed is a valid URL"
+    puts "    Then please do let me know as I spent hours writing this regex thinking it was badass"
+  end
+when Array
+  puts "arrays"  
+when FixNum
+  puts " >> Invalid or Lacking Input Detected. Please Use Properly."
+  puts " >> Supply Either a Single Entry or a comma delimited list"
+end 
